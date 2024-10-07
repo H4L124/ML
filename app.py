@@ -5,8 +5,8 @@ import shap
 import matplotlib.pyplot as plt
 
 # Fungsi untuk load CSS dari file eksternal
-def local_css(style.css):
-    with open(style.css) as f:
+def local_css("style.css"):
+    with open("style.css") as f:
         st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
 # Panggil fungsi untuk memuat CSS
