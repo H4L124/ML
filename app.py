@@ -43,10 +43,6 @@ def predict_stunting(umur, jenis_kelamin, tinggi_badan):
 if st.button('Prediksi Kategori Stunting'):
     hasil = predict_stunting(umur, jenis_kelamin, tinggi_badan)
     st.success(f'Hasil Prediksi: {hasil}')
-# Tombol untuk prediksi
-if st.button('Prediksi Kategori Stunting'):
-    hasil = predict_stunting(umur, jenis_kelamin, tinggi_badan)
-    st.success(f'Hasil Prediksi: {hasil}')
 
 # SHAP Interpretasi (tidak diubah dari sebelumnya)
 st.header('Interpretasi SHAP')
