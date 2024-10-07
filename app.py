@@ -39,7 +39,7 @@ def predict_stunting(umur, jenis_kelamin, tinggi_badan):
     prediction = model.predict(input_data_scaled)  # Lakukan prediksi
     return prediction[0]  # Mengembalikan hasil prediksi
 # Fungsi untuk mengubah angka kategori menjadi label
-def map_stunting_category(category):
+def map_hasil(category):
     mapping = {
         0: "severity stunting",
         1: "stunting",
@@ -51,6 +51,14 @@ def map_stunting_category(category):
 # Tombol untuk prediksi
 if st.button('Prediksi Kategori Stunting'):
     hasil = predict_stunting(umur, jenis_kelamin, tinggi_badan)
+    def map_hasil(category):
+    mapping = {
+        0: "severity stunting",
+        1: "stunting",
+        2: "normal",
+        3: "tinggi"
+    }
+    return mapping.get(category, "Unknown")
     st.success(f'Hasil Prediksi: {hasil}')
 
 # SHAP Interpretasi (tidak diubah dari sebelumnya)
