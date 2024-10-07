@@ -1,0 +1,52 @@
+/* Gaya untuk judul aplikasi */
+h1 {
+    color: #4CAF50;
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Gaya untuk tombol */
+.stButton button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+/* Hover effect untuk tombol */
+.stButton button:hover {
+    background-color: #45a049;
+}
+
+/* Style untuk input field */
+.stNumberInput, .stSelectbox {
+    border-radius: 5px;
+    padding: 8px;
+}
+
+/* Gaya untuk footer */
+footer {
+    visibility: hidden;
+}
+footer:after {
+    content: 'Made with ❤️ by [Your Name]';
+    visibility: visible;
+    display: block;
+    position: relative;
+    padding: 5px;
+    top: 2px;
+    text-align: center;
+    font-size: 12px;
+    color: #888;
+}
+
+/* Gaya background aplikasi */
+.stApp {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 10px;
+}
