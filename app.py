@@ -24,13 +24,25 @@ if jenis_kelamin == 'Laki-laki':
     jenis_kelamin = 0
 else:
     jenis_kelamin = 1
-tinggi_badan = st.number_input('Tinggi Badan (cm)', min_value=30.0, max_value=150.0, value=80.0)
+tinggi_badan = st.number_input('Tinggi Badan (cm)', min_value=00.0, max_value=150.0, value=80.0)
+
+
+# Load model dan scaler
+model = joblib.load('model_stunting_multinomial.pkl')
+scaler = joblib.load('scaler_stunting.pkl')
 
 # Fungsi untuk prediksi kategori stunting
 def predict_stunting(umur, jenis_kelamin, tinggi_badan):
-    # Dummy output untuk contoh
-    return 'Stunted'
+    # Preprocess input data
+    input_data = np.array([[umur, jenis_kelamin, tinggi_badan]])  # Input dalam format 2D
+    input_data_scaled = scaler.transform(input_data)  # Transformasi data menggunakan scaler
+    prediction = model.predict(input_data_scaled)  # Lakukan prediksi
+    return prediction[0]  # Mengembalikan hasil prediksi
 
+# Tombol untuk prediksi
+if st.button('Prediksi Kategori Stunting'):
+    hasil = predict_stunting(umur, jenis_kelamin, tinggi_badan)
+    st.success(f'Hasil Prediksi: {hasil}')
 # Tombol untuk prediksi
 if st.button('Prediksi Kategori Stunting'):
     hasil = predict_stunting(umur, jenis_kelamin, tinggi_badan)
