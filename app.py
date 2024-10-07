@@ -51,15 +51,8 @@ def map_hasil(category):
 # Tombol untuk prediksi
 if st.button('Prediksi Kategori Stunting'):
     hasil = predict_stunting(umur, jenis_kelamin, tinggi_badan)
-    def map_hasil(category):
-    mapping = {
-        0: "severity stunting",
-        1: "stunting",
-        2: "normal",
-        3: "tinggi"
-    }
-    return mapping.get(category, "Unknown")
-    st.success(f'Hasil Prediksi: {hasil}')
+    hasil_label = map_hasil(hasil)
+    st.success(f'Hasil Prediksi: {hasil_label}')
 
 # SHAP Interpretasi (tidak diubah dari sebelumnya)
 st.header('Interpretasi SHAP')
