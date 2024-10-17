@@ -13,9 +13,16 @@ def local_css(file_path):
 local_css("style.css")
 
 # Title aplikasi
-st.title('Dashboard Stunting pada Balita')
+st.title('Dashboard Deteksi Stunting pada Balita')
 
 # Sidebar untuk navigasi halaman
+st.sidebar.subheader("Dashboard Deteksi Stunting Balita")
+st.sidebar.subheader("Disusun Oleh:")
+st.sidebar.write("Kelompok 3 Kelas A")
+st.sidebar.subheader("Anggota Kelompok:")
+st.sidebar.write("Nur Haliza Rositasari (2043211069)")
+st.sidebar.write("Hanna Naza Syajidha (2043211019)")
+st.sidebar.write("Bibit Eka Wahyuni (2043211053)")
 page = st.sidebar.selectbox('Navigasi Halaman', 
                             ['Karakteristik Stunting Menurut Provinsi di Indonesia', 
                              'Faktor-faktor yang Memengaruhi Kejadian Stunting Balita', 
