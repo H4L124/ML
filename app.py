@@ -134,10 +134,10 @@ if page == 'Prediksi Stunting':
 
     # Tombol untuk prediksi
     if st.button('Prediksi Stunting'):
-        if tinggi_badan <= 0:
+        if tb <= 0:
             st.error("Tinggi badan harus lebih dari 0 cm.")
         else:
-            hasil = predict_stunting(umur, jenis_kelamin, tinggi_badan)
+            hasil = predict_stunting(penambah_darah, bb_lahir, bb, tb, umur, akses_ventilasi, kehidupan_rt, makan_anak, kesehatan_anak, jenis_kelamin)
             hasil_label = map_hasil(hasil)
 
             # Tampilkan hasil prediksi dengan warna dinamis
