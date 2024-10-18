@@ -140,7 +140,7 @@ if page == 'Prediksi Stunting':
 
     # Tombol untuk prediksi
 if st.button('Prediksi Stunting'):
-    if tinggi_badan <= 0:
+    if tb <= 0:
         st.error("Tinggi badan harus lebih dari 0 cm.")
     else:
         # Pisahkan variabel numerik dan kategorik
