@@ -102,7 +102,7 @@ if page == 'Prediksi Stunting Menurut Indikator':
         'Kurang Mencukupi': 1,
         'Cukup': 2,
         'Lebih Dari Cukup': 3,
-        'Kurang Tahu': 4
+        'Kurang Tahu': 8
     }
     kesehatan_anak = kesehatan_anak_mapping[kesehatan_anak]
     jenis_kelamin = 1 if jenis_kelamin == 'Laki-laki' else 3
