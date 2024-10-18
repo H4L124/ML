@@ -159,8 +159,97 @@ if st.button('Prediksi Stunting'):
             )
             st.warning("Jika anak teridentifikasi stunting, segera bawa anak ke tenaga medis untuk saran dan pemantauan lebih lanjut.")
 
+import streamlit as st
 
+def check_height(age_months, gender, height):
+    # Aturan tinggi badan
+    if gender == 'Laki-laki':
+        if 1 <= age_months <= 12:
+            return 71 <= height <= 82.9
+        elif 13 <= age_months <= 24:
+            return 81.7 <= height <= 96.3
+        elif 25 <= age_months <= 36:
+            return 88.7 <= height <= 107.2
+        elif 37 <= age_months <= 48:
+            return 94.9 <= height <= 115.9
+        elif 49 <= age_months <= 60:
+            return 100.7 <= height <= 123.9
+    elif gender == 'Perempuan':
+        if 1 <= age_months <= 12:
+            return 68.9 <= height <= 81.7
+        elif 13 <= age_months <= 24:
+            return 80 <= height <= 96.1
+        elif 25 <= age_months <= 36:
+            return 87.4 <= height <= 106.5
+        elif 37 <= age_months <= 48:
+            return 94.1 <= height <= 115.7
+        elif 49 <= age_months <= 60:
+            return 99.9 <= height <= 123.7
+    return False
 
+def check_weight(age_months, gender, weight):
+    # Aturan berat badan
+    if gender == 'Laki-laki':
+        if 1 <= age_months <= 12:
+            return 7.7 <= weight <= 12
+        elif 13 <= age_months <= 24:
+            return 9.7 <= weight <= 15.3
+        elif 25 <= age_months <= 36:
+            return 11.3 <= weight <= 18.3
+        elif 37 <= age_months <= 48:
+            return 12.7 <= weight <= 21.2
+        elif 49 <= age_months <= 60:
+            return 14.1 <= weight <= 21.2
+    elif gender == 'Perempuan':
+        if 1 <= age_months <= 12:
+            return 7 <= weight <= 11.5
+        elif 13 <= age_months <= 24:
+            return 9 <= weight <= 14.8
+        elif 25 <= age_months <= 36:
+            return 10.8 <= weight <= 18.1
+        elif 37 <= age_months <= 48:
+            return 12.3 <= weight <= 21.5
+        elif 49 <= age_months <= 60:
+            return 13.7 <= weight <= 24.9
+    return False
+
+# Melakukan prediksi
+hasil = predict_stunting(numerical_data, categorical_data)
+hasil_label = map_hasil(hasil)
+
+# Tampilkan hasil prediksi dengan warna dinamis
+if hasil in [0, 1]:  # Jika Severity Stunting atau Stunting
+    st.markdown(
+        f"<div style='color: red; font-weight: bold;'>Hasil Prediksi: {hasil_label}</div>",
+        unsafe_allow_html=True
+    )
+    st.warning("Jika anak teridentifikasi stunting, segera bawa anak ke tenaga medis untuk saran dan pemantauan lebih lanjut.")
+    
+    # Ambil input dari pengguna
+    age_months = st.number_input("Usia Anak (dalam bulan)", min_value=1, max_value=60)
+    gender = st.selectbox("Jenis Kelamin Anak", ["Laki-laki", "Perempuan"])
+    height = st.number_input("Tinggi Badan Anak (dalam cm)", min_value=50.0, max_value=150.0)
+    weight = st.number_input("Berat Badan Anak (dalam kg)", min_value=1.0, max_value=50.0)
+
+    # Cek tinggi badan
+    height_ok = check_height(age_months, gender, height)
+    if not height_ok:
+        st.subheader("Rekomendasi Makanan untuk Kekurangan Tinggi Badan")
+        st.write("1. Susu dan produk olahan susu (yogurt, keju, susu full cream)")
+        st.write("2. Daging ayam")
+        st.write("3. Kacang-Kacangan dan Biji-Bijian")
+        st.write("4. Sayuran Hijau Gelap seperti bayam dan brokoli")
+
+    # Cek berat badan
+    weight_ok = check_weight(age_months, gender, weight)
+    if not weight_ok:
+        st.subheader("Rekomendasi Makanan untuk Kekurangan Berat Badan")
+        st.write("1. Susu tinggi lemak atau susu formula khusus untuk anak dengan berat badan rendah.")
+        st.write("2. Nasi, kentang, pasta, dan roti gandum yang menyediakan energi dan kalori.")
+        st.write("3. Alpukat, kacang-kacangan, minyak zaitun, dan minyak kelapa sebagai sumber energi padat.")
+        st.write("4. Daging, ikan, ayam, tempe, dan tahu. Protein penting untuk menambah massa tubuh dan otot.")
+        st.write("5. Buah seperti pisang, mangga, dan kurma, memberikan energi sekaligus serat dan vitamin.")
+        st.write("6. Roti dengan selai kacang, smoothie dengan susu, dan granola yang mengandung campuran lemak, protein, dan karbohidrat.")
 
 
 if page == 'Deteksi Stunting Standar WHO':
