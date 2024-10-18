@@ -249,9 +249,9 @@ if page == 'Deteksi Stunting Standar WHO':
             }
 
         # Tombol untuk memulai prediksi setelah input data lengkap
-        if st.button('Prediksi Berdasarkan Tinggi Badan dan Berat Badan'):
+            if st.button('Prediksi Berdasarkan Tinggi Badan dan Berat Badan'):
         # Mengecek apakah tinggi badan anak sesuai dengan standar
-        standar_min_tinggi, standar_max_tinggi = standar_tinggi[jenis_kelamin_input][usia_bulan]
+            standar_min_tinggi, standar_max_tinggi = standar_tinggi[jenis_kelamin_input][usia_bulan]
     
         if not (standar_min_tinggi <= tinggi_badan_input <= standar_max_tinggi):
             st.error(f"Tinggi badan anak Anda tidak sesuai standar untuk usia {usia_bulan} bulan.")
