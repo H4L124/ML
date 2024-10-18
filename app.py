@@ -107,6 +107,7 @@ if page == 'Prediksi Stunting':
     }
     kesehatan_anak = kesehatan_anak_mapping[kesehatan_anak]
     jenis_kelamin = 1 if jenis_kelamin == 'Laki-laki' else 3
+    dummy_feature = st.number_input('Dummy Feature (Test)', min_value=0, max_value=1, value=0)
     # Load model dan scaler dengan error handling
     try:
         model = joblib.load('model_faktorstunting_multinomial.pkl')
@@ -121,6 +122,7 @@ if page == 'Prediksi Stunting':
 
     # Gabungkan data numerik yang telah diskalakan dengan data kategorik
         input_data_combined = np.concatenate([numerical_data_scaled[0], categorical_data])
+        input_data_combined = np.append(input_data_combined, dummy_feature) 
 
     # Prediksi menggunakan model
         prediction = model.predict([input_data_combined])  # Prediksi
