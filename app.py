@@ -161,6 +161,43 @@ if st.button('Prediksi Stunting'):
         else:
             st.success(f'Hasil Prediksi: {hasil_label}')
 
+# Peringatan untuk stunting
+        if hasil in [0, 1]:  # Jika Severity Stunting atau Stunting
+            st.warning("Jika anak teridentifikasi stunting, segera bawa anak ke tenaga medis untuk saran dan pemantauan lebih lanjut.")
+            
+            # Rekomendasi makanan berdasarkan berat badan dan usia
+            def rekomendasi_berat_badan(umur, bb, jenis_kelamin):
+                # Aturan berat badan
+                batas_berat = {
+                    (1, 12): (7.0, 12.0) if jenis_kelamin == 3 else (7.7, 12.0),  # Anak perempuan: 7.0 - 11.5 kg; Laki-laki: 7.7 - 12.0 kg
+                    (13, 24): (9.0, 14.8) if jenis_kelamin == 3 else (9.7, 15.3),  # Anak perempuan: 9.0 - 14.8 kg; Laki-laki: 9.7 - 15.3 kg
+                    (25, 36): (10.8, 18.1) if jenis_kelamin == 3 else (11.3, 18.3),  # Anak perempuan: 10.8 - 18.1 kg; Laki-laki: 11.3 - 18.3 kg
+                    (37, 48): (12.3, 21.5) if jenis_kelamin == 3 else (12.7, 21.2),  # Anak perempuan: 12.3 - 21.5 kg; Laki-laki: 12.7 - 21.2 kg
+                    (49, 60): (13.7, 24.9) if jenis_kelamin == 3 else (14.1, 21.2)   # Anak perempuan: 13.7 - 24.9 kg; Laki-laki: 14.1 - 21.2 kg
+                }
+
+                # Cek batas berat badan berdasarkan umur dan jenis kelamin
+                for age_range, (min_weight, max_weight) in batas_berat.items():
+                    if umur in range(age_range[0], age_range[1] + 1):
+                        if bb < min_weight:
+                            return True  # Berat badan kurang dari minimum
+                        else:
+                            return False  # Berat badan sudah sesuai
+
+                return False  # Jika tidak ada rentang umur yang cocok
+
+            # Cek rekomendasi makanan hanya jika anak teridentifikasi stunting
+            if rekomendasi_berat_badan(umur, bb, jenis_kelamin):
+                st.warning("Berat badan anak kurang dari nilai minimum. Berikut rekomendasi makanan untuk kekurangan berat badan:")
+                st.markdown("""
+                1. Susu tinggi lemak atau susu formula khusus untuk anak dengan berat badan rendah.
+                2. Nasi, kentang, pasta, dan roti gandum yang menyediakan energi dan kalori.
+                3. Alpukat, kacang-kacangan, minyak zaitun, dan minyak kelapa sebagai sumber energi padat.
+                4. Daging, ikan, ayam, tempe, dan tahu. Protein penting untuk menambah massa tubuh dan otot.
+                5. Buah-buahan seperti pisang, mangga, dan kurma, memberikan energi sekaligus serat dan vitamin.
+                6. Roti dengan selai kacang, smoothie dengan susu, dan granola yang mengandung campuran lemak, protein, dan karbohidrat.
+                """)
+
 if page == 'Deteksi Stunting Standar WHO':
     st.header('Prediksi Stunting pada Balita')
     st.write('Deteksi stunting dilakukan berdasarkan indikator HAZ/Height-for-Age Z-score dari standar WHO. WHO telah menetapkan populasi referensi internasional yang digunakan sebagai standar universal untuk menilai pertumbuhan anak-anak di seluruh dunia, termasuk untuk penghitungan Z-score. Standar WHO digunakan untuk mengevaluasi apakah pertumbuhan seorang anak sesuai dengan potensi pertumbuhan biologis optimal, terlepas dari lokasi geografis.')
