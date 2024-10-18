@@ -196,9 +196,6 @@ if st.button('Prediksi Stunting'):
                 6. Roti dengan selai kacang, smoothie dengan susu, dan granola yang mengandung campuran lemak, protein, dan karbohidrat.
                 """)
 
-        else:
-            st.success("Anak tidak teridentifikasi stunting. Pertahankan pola makan yang sehat dan seimbang.")
-
 if page == 'Deteksi Stunting Standar WHO':
     st.header('Prediksi Stunting pada Balita')
     st.write('Deteksi stunting dilakukan berdasarkan indikator HAZ/Height-for-Age Z-score dari standar WHO. WHO telah menetapkan populasi referensi internasional yang digunakan sebagai standar universal untuk menilai pertumbuhan anak-anak di seluruh dunia, termasuk untuk penghitungan Z-score. Standar WHO digunakan untuk mengevaluasi apakah pertumbuhan seorang anak sesuai dengan potensi pertumbuhan biologis optimal, terlepas dari lokasi geografis.')
