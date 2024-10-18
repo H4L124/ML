@@ -70,10 +70,10 @@ if page == 'Prediksi Stunting':
     # Input form untuk memasukkan data
     st.subheader('Input Data')
      # Input form for indicator variables
-    penambah_darah = st.number_input('Jumlah Pil Penambah Darah yang Dikonsumsi Selama Mengandung', min_value=0, max_value=1000, value=0)
+    penambah_darah = st.number_input('Jumlah Pil Penambah Darah yang Dikonsumsi Ibu Selama Mengandung', min_value=0, max_value=1000, value=0)
     bb_lahir = st.number_input('Berat Badan Lahir (kg)', min_value=0.0, max_value=10.0, value=0.0)
-    bb = st.number_input('Berat Badan Lahir (kg)', min_value=0.0, max_value=100.0, value=0.0)
-    tb = st.number_input('Berat Badan Lahir (kg)', min_value=0.0, max_value=200.0, value=0.0)
+    bb = st.number_input('Berat Badan Sekarang (kg)', min_value=0.0, max_value=100.0, value=0.0)
+    tb = st.number_input('Tinggi Badan (cm)', min_value=0.0, max_value=200.0, value=0.0)
     umur = st.number_input('Umur (bulan)', min_value=0, max_value=60, value=24)
     akses_ventilasi = st.selectbox('Akses Ventilasi Rumah', ('Memadahi', 'Tidak Memadahi'))
     kehidupan_rt = st.selectbox('Bagaimana Kondisi Perekonomian Orang Tua?', ('Kurang Mencukupi', 'Mencukupi Kebutuhan Primer', 'Lebih Dari Cukup', 'Kurang Tahu'))
@@ -116,8 +116,8 @@ if page == 'Prediksi Stunting':
         st.stop()
 
     # Fungsi untuk prediksi kategori stunting
-    def predict_stunting(umur, jenis_kelamin, tinggi_badan):
-        input_data = np.array([[umur, jenis_kelamin, tinggi_badan]])
+    def predict_stunting(penambah_darah, bb_lahir, bb, tb, umur, akses_ventilasi, kehidupan_rt, makan_anak, kesehatan_anak, jenis_kelamin):
+        input_data = np.array([[penambah_darah, bb_lahir, bb, tb, umur, akses_ventilasi, kehidupan_rt, makan_anak, kesehatan_anak, jenis_kelamin]])
         input_data_scaled = scaler.transform(input_data)  # Transformasi data
         prediction = model.predict(input_data_scaled)  # Prediksi
         return prediction[0]
