@@ -35,33 +35,32 @@ st.sidebar.write("Bibit Eka Wahyuni (2043211053)")
 if page == 'Karakteristik Stunting Menurut Provinsi di Indonesia':
     st.header('Karakteristik Stunting Menurut Provinsi di Indonesia')
 
-    # Load data from Excel file
-    data_path = 'stunting.xlsx'
-    df = pd.read_excel(data_path)
+  # Load data from Excel file
+data_path = 'stunting.xlsx'
+df = pd.read_excel(data_path)
 
-    # Load the shapefile for Indonesia provinces (GeoJSON format is preferable)
-    geojson_url = 'https://raw.githubusercontent.com/anggerkap01/indonesia-geojson/master/indonesia-province.json'
-    provinces_geo = gpd.read_file(geojson_url)
+# Load the shapefile (GeoJSON format) from a local file
+geojson_path = 'indonesia.geojson'
+provinces_geo = gpd.read_file(geojson_path)
 
-    # Merge the stunting data with geographical data
-    df['Province'] = df['Provinsi']  # Ensure column name matches
-    provinces_geo = provinces_geo.merge(df, how='left', left_on='NAME_1', right_on='Province')
+# Ensure column names match between the GeoDataFrame and your DataFrame
+provinces_geo = provinces_geo.merge(df, how='left', left_on='NAME_1', right_on='Province')
 
-    # Plot the map
-    fig = px.choropleth(provinces_geo,
-                        geojson=provinces_geo.geometry,
-                        locations=provinces_geo.index,
-                        color='Persentase Kasus Stunting (%)',
-                        hover_name='Provinsi',
-                        hover_data=['Jumlah Balita', 'Stunting', 'Severity Stunting'],
-                        title='Peta Persebaran Stunting di Indonesia',
-                        color_continuous_scale='YlOrRd')
+# Plot the map
+fig = px.choropleth(provinces_geo,
+                    geojson=provinces_geo.geometry,
+                    locations=provinces_geo.index,
+                    color='Persentase Kasus Stunting (%)',
+                    hover_name='Provinsi',
+                    hover_data=['Jumlah Balita', 'Stunting', 'Severity Stunting'],
+                    title='Peta Persebaran Stunting di Indonesia',
+                    color_continuous_scale='YlOrRd')
 
-    fig.update_geos(fitbounds="locations", visible=False)
-    fig.update_layout(margin={"r":0,"t":30,"l":0,"b":0})
+fig.update_geos(fitbounds="locations", visible=False)
+fig.update_layout(margin={"r": 0, "t": 30, "l": 0, "b": 0})
 
-    # Display the map
-    st.plotly_chart(fig)
+# Display the map
+st.plotly_chart(fig)
 
 # Halaman 2: Faktor-faktor yang Memengaruhi Kejadian Stunting Balita
 if page == 'Faktor-faktor yang Memengaruhi Kejadian Stunting Balita':
