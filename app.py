@@ -76,28 +76,25 @@ if page == 'Prediksi Stunting pada Balita':
     st.subheader('Input Data')
     umur = st.number_input('Umur (bulan)', min_value=0, max_value=60, value=24)
     jenis_kelamin = st.selectbox('Jenis Kelamin', ('Perempuan', 'Laki-laki'))
-    
-    # Konversi menjadi 0 dan 1
-    if jenis_kelamin == 'Laki-laki':
-        jenis_kelamin = 0
-    else:
-        jenis_kelamin = 1
+
+    # Konversi jenis kelamin menjadi 0 dan 1
+    jenis_kelamin = 0 if jenis_kelamin == 'Laki-laki' else 1
 
     tinggi_badan = st.number_input('Tinggi Badan (cm)', min_value=0.0, max_value=150.0, value=80.0)
+    berat_badan = st.number_input('Berat Badan (kg)', min_value=0.0, max_value=50.0, value=10.0)
 
     # Load model dan scaler
     model = joblib.load('model_stunting_multinomial.pkl')
     scaler = joblib.load('scaler_stunting.pkl')
 
-    # Fungsi untuk prediksi kategori stunting
+    # Fungsi prediksi stunting
     def predict_stunting(umur, jenis_kelamin, tinggi_badan):
-        # Preprocess input data
-        input_data = np.array([[umur, jenis_kelamin, tinggi_badan]])  # Input dalam format 2D
-        input_data_scaled = scaler.transform(input_data)  # Transformasi data menggunakan scaler
-        prediction = model.predict(input_data_scaled)  # Lakukan prediksi
-        return prediction[0]  # Mengembalikan hasil prediksi
+        input_data = np.array([[umur, jenis_kelamin, tinggi_badan]])  # Format input 2D
+        input_data_scaled = scaler.transform(input_data)  # Transformasi data
+        prediction = model.predict(input_data_scaled)  # Prediksi
+        return prediction[0]  # Kembalikan hasil prediksi
 
-    # Fungsi untuk mengubah angka kategori menjadi label
+    # Fungsi untuk konversi hasil prediksi menjadi label
     def map_hasil(category):
         mapping = {
             0: "Severity Stunting",
@@ -106,6 +103,20 @@ if page == 'Prediksi Stunting pada Balita':
             3: "Tinggi"
         }
         return mapping.get(category, "Unknown")
+
+    # Fungsi validasi berat badan ideal berdasarkan umur dan jenis kelamin
+    def berat_badan_ideal(umur, jenis_kelamin, berat_badan):
+        if umur == 12:  # Usia 1 tahun
+            if jenis_kelamin == 0:  # Laki-laki
+                return 7.7 <= berat_badan <= 10.8
+            else:  # Perempuan
+                return 7.0 <= berat_badan <= 10.1
+        elif umur == 24:  # Usia 2 tahun
+            if jenis_kelamin == 0:  # Laki-laki
+                return 9.7 <= berat_badan <= 13.6
+            else:  # Perempuan
+                return 9.0 <= berat_badan <= 13.0
+        return True  # Default: anggap ideal jika tidak ada validasi khusus
 
     # Tombol untuk prediksi
     if st.button('Prediksi Kategori Stunting'):
@@ -118,7 +129,21 @@ if page == 'Prediksi Stunting pada Balita':
                 f"<div style='color: red; font-weight: bold;'>Hasil Prediksi: {hasil_label}</div>",
                 unsafe_allow_html=True
             )
-            st.warning("Jika anak teridentifikasi stunting, segera bawa anak ke tenaga medis untuk saran dan pemantauan lebih lanjut.")
+            st.warning("Segera bawa anak ke tenaga medis untuk pemantauan lebih lanjut.")
+            
+            # Validasi berat badan ideal
+            if not berat_badan_ideal(umur, jenis_kelamin, berat_badan):
+                st.error("Berat badan anak kurang dari standar ideal.")
+                st.subheader("Rekomendasi Makanan untuk Kekurangan Berat Badan:")
+                st.markdown("""
+                1. **Susu tinggi lemak** atau susu formula khusus untuk anak dengan berat badan rendah.
+                2. **Nasi, kentang, pasta, dan roti gandum** yang menyediakan energi dan kalori.
+                3. **Alpukat, kacang-kacangan, minyak zaitun, dan minyak kelapa** sebagai sumber energi padat.
+                4. **Daging, ikan, ayam, tempe, dan tahu**. Protein penting untuk menambah massa tubuh dan otot.
+                5. **Buah seperti pisang, mangga, dan kurma**, memberikan energi serta serat dan vitamin.
+                6. **Roti dengan selai kacang, smoothie dengan susu, dan granola** yang mengandung campuran lemak, protein, dan karbohidrat.
+                """)
+
         else:  # Untuk kategori Normal atau Tinggi
             st.success(f'Hasil Prediksi: {hasil_label}')
 
@@ -126,5 +151,5 @@ if page == 'Prediksi Stunting pada Balita':
     st.subheader('Interpretasi SHAP')
     st.write('Visualisasi ini membantu memahami fitur mana yang berpengaruh pada prediksi model.')
 
-    # Simulasi plot SHAP
-    st.pyplot()
+    # Placeholder untuk plot SHAP
+    st.pyplot()  # Simulasi plot SHAP
