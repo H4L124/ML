@@ -125,12 +125,4 @@ if page == 'Prediksi Stunting pada Balita':
             else:
                 st.success(f'Hasil Prediksi: {hasil_label}')
 
-    # SHAP Interpretasi
-    st.subheader('Interpretasi SHAP')
-    st.write('Visualisasi ini membantu memahami fitur mana yang berpengaruh pada prediksi model.')
-
-    # Placeholder untuk plot SHAP
-    placeholder = st.empty()  # Placeholder jika plot belum tersedia
-    with placeholder:
-        st.pyplot()  # Simulasi plot SHAP
 
