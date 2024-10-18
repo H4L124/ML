@@ -149,7 +149,6 @@ if page == 'Prediksi Stunting':
             else:
                 st.success(f'Hasil Prediksi: {hasil_label}')
 
-# Halaman 3: Prediksi Stunting pada Balita
 if page == 'Deteksi Stunting Standar WHO':
     st.header('Prediksi Stunting pada Balita')
     st.write('Deteksi stunting dilakukan berdasarkan indikator HAZ/Height-for-Age Z-score dari standar WHO. WHO telah menetapkan populasi referensi internasional yang digunakan sebagai standar universal untuk menilai pertumbuhan anak-anak di seluruh dunia, termasuk untuk penghitungan Z-score. Standar WHO digunakan untuk mengevaluasi apakah pertumbuhan seorang anak sesuai dengan potensi pertumbuhan biologis optimal, terlepas dari lokasi geografis.')
@@ -160,7 +159,7 @@ if page == 'Deteksi Stunting Standar WHO':
     jenis_kelamin = st.selectbox('Jenis Kelamin', ('Perempuan', 'Laki-laki'))
     
     # Konversi menjadi 0 dan 1
-    jenis_kelamin = 0 jika jenis_kelamin == 'Laki-laki' else 1
+    jenis_kelamin = 0 if jenis_kelamin == 'Laki-laki' else 1
 
     tinggi_badan = st.number_input('Tinggi Badan (cm)', min_value=0.0, max_value=150.0, value=80.0)
 
@@ -208,9 +207,9 @@ if page == 'Deteksi Stunting Standar WHO':
                 st.success(f'Hasil Prediksi: {hasil_label}')
 
             # Setelah prediksi, input data tambahan terkait berat dan tinggi
-            tinggi_badan = st.number_input("Masukkan tinggi badan anak (cm):", min_value=0.0)
+            tinggi_badan_input = st.number_input("Masukkan tinggi badan anak (cm):", min_value=0.0)
             berat_badan = st.number_input("Masukkan berat badan anak (kg):", min_value=0.0)
-            jenis_kelamin = st.selectbox("Pilih jenis kelamin anak:", ['Laki-laki', 'Perempuan'])
+            jenis_kelamin_input = st.selectbox("Pilih jenis kelamin anak:", ['Laki-laki', 'Perempuan'])
             usia = st.selectbox("Pilih usia anak (tahun):", [1, 2, 3, 4, 5])
 
             # Standar tinggi badan berdasarkan usia dan jenis kelamin
@@ -220,8 +219,8 @@ if page == 'Deteksi Stunting Standar WHO':
             }
 
             # Mengecek apakah tinggi badan anak sesuai dengan standar
-            standar_min_tinggi, standar_max_tinggi = standar_tinggi[jenis_kelamin][usia]
-            if not (standar_min_tinggi <= tinggi_badan <= standar_max_tinggi):
+            standar_min_tinggi, standar_max_tinggi = standar_tinggi[jenis_kelamin_input][usia]
+            if not (standar_min_tinggi <= tinggi_badan_input <= standar_max_tinggi):
                 st.error(f"Tinggi badan anak Anda tidak sesuai standar untuk usia {usia} tahun.")
                 st.warning("Rekomendasi Makanan untuk Kekurangan Tinggi Badan:")
                 st.markdown("""
