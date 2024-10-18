@@ -62,7 +62,92 @@ if page == 'Karakteristik Stunting Menurut Provinsi di Indonesia':
     # Display the map
     st.plotly_chart(fig)
     st.write('Peta prevelensi stunting di Indonesia menunjukkan bahwa persebaran stunting dengan perbedaan warna pada setiap daerah dengan rentang warna kuning hingga merah tua, semakin gelap warna menunjukkan semakin tinggi jumlah kejadian stunting. Pada peta menunjukkan Provinsi Sulawesi Selatan dan NTT memiliki prevelensi stunting yang tinggi, Papua dan Papua Barat memiliki prevelensi sedang hingga tinggi')
+# Halaman baru: Prediksi Stunting Menurut Indikator
+if page == 'Prediksi Stunting Menurut Indikator':
+    st.header('Prediksi Stunting Menurut Indikator')
 
+    # Input form untuk memasukkan data
+    st.subheader('Input Data')
+     # Input form for indicator variables
+    penambah_darah = st.number_input('Jumlah Pil Penambah Darah yang Dikonsumsi Selama Mengandung', min_value=0, max_value=1000, value=0)
+    bb_lahir = st.number_input('Berat Badan Lahir (kg)', min_value=0.0, max_value=10.0, value=0.0)
+    bb = st.number_input('Berat Badan Lahir (kg)', min_value=0.0, max_value=100.0, value=0.0)
+    tb = st.number_input('Berat Badan Lahir (kg)', min_value=0.0, max_value=200.0, value=0.0)
+    umur = st.number_input('Umur (bulan)', min_value=0, max_value=60, value=24)
+    akses_ventilasi = st.selectbox('Akses Ventilasi Rumah', ('Memadahi', 'Tidak Memadahi'))
+    kehidupan_rt = st.selectbox('Bagaimana Kondisi Perekonomian Orang Tua?', ('Kurang Mencukupi', 'Mencukupi Kebutuhan Primer', 'Lebih Dari Cukup', 'Kurang Tahu'))
+    makan_anak = st.selectbox('Bagaimana Kecukupan untuk Konsumsi Anak?', ('Kurang Mencukupi', 'Cukup', 'Lebih Dari Cukup', 'Kurang Tahu'))
+    kesehatan_anak = st.selectbox('Bagaimana Akses untuk Perawatan Kesehatan Anak?', ('Kurang Mencukupi', 'Cukup ', 'Lebih Dari Cukup', 'Kurang Tahu'))
+    jenis_kelamin = st.selectbox('Jenis Kelamin', ('Perempuan', 'Laki-laki'))
+
+    # Konversi menjadi 0 dan 1
+    akses_ventilasi = 1 if akses_ventilasi == 'Memadahi' else 3
+    kehidupan_rt_mapping = {
+        'Kurang Mencukupi': 1,
+        'Mencukupi Kebutuhan Primer': 2,
+        'Lebih Dari Cukup': 3,
+        'Kurang Tahu': 8
+    }
+    kehidupan_rt = kehidupan_rt_mapping[kehidupan_rt]
+
+    makan_anak_mapping = {
+        'Kurang Mencukupi': 1,
+        'Cukup': 2,
+        'Lebih Dari Cukup': 3,
+        'Kurang Tahu': 8
+    }
+    makan_anak = makan_anak_mapping[makan_anak]
+
+    kesehatan_anak_mapping = {
+        'Kurang Mencukupi': 1,
+        'Cukup': 2,
+        'Lebih Dari Cukup': 3,
+        'Kurang Tahu': 4
+    }
+    kesehatan_anak = kesehatan_anak_mapping[kesehatan_anak]
+    jenis_kelamin = 1 if jenis_kelamin == 'Laki-laki' else 3
+    # Load model dan scaler dengan error handling
+    try:
+        model = joblib.load('model_faktorstunting_multinomial.pkl')
+        scaler = joblib.load('scaler_faktorstunting.pkl')
+    except FileNotFoundError:
+        st.error("Model atau scaler tidak ditemukan. Pastikan file sudah benar.")
+        st.stop()
+
+    # Fungsi untuk prediksi kategori stunting
+    def predict_stunting(umur, jenis_kelamin, tinggi_badan):
+        input_data = np.array([[umur, jenis_kelamin, tinggi_badan]])
+        input_data_scaled = scaler.transform(input_data)  # Transformasi data
+        prediction = model.predict(input_data_scaled)  # Prediksi
+        return prediction[0]
+
+    # Fungsi untuk mengubah angka kategori menjadi label
+    def map_hasil(category):
+        mapping = {
+            0: "Severity Stunting",
+            1: "Stunting",
+            2: "Normal",
+            3: "Tinggi"
+        }
+        return mapping.get(category, "Unknown")
+
+    # Tombol untuk prediksi
+    if st.button('Prediksi Stunting'):
+        if tinggi_badan <= 0:
+            st.error("Tinggi badan harus lebih dari 0 cm.")
+        else:
+            hasil = predict_stunting(umur, jenis_kelamin, tinggi_badan)
+            hasil_label = map_hasil(hasil)
+
+            # Tampilkan hasil prediksi dengan warna dinamis
+            if hasil in [0, 1]:  # Jika Severity Stunting atau Stunting
+                st.markdown(
+                    f"<div style='color: red; font-weight: bold;'>Hasil Prediksi: {hasil_label}</div>",
+                    unsafe_allow_html=True
+                )
+                st.warning("Jika anak teridentifikasi stunting, segera bawa anak ke tenaga medis untuk saran dan pemantauan lebih lanjut.")
+            else:
+                st.success(f'Hasil Prediksi: {hasil_label}')
 # Halaman 3: Prediksi Stunting pada Balita
 if page == 'Prediksi Stunting pada Balita':
     st.header('Prediksi Stunting pada Balita')
