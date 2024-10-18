@@ -34,35 +34,34 @@ st.sidebar.write("Bibit Eka Wahyuni (2043211053)")
 # Halaman 1: Karakteristik Stunting Menurut Provinsi di Indonesia
 if page == 'Karakteristik Stunting Menurut Provinsi di Indonesia':
     st.header('Karakteristik Stunting Menurut Provinsi di Indonesia')
-     # Load data from Excel file
-data_path = 'stunting.xlsx'
-df = pd.read_excel(data_path)
+    
+    # Load data from Excel file
+    data_path = 'stunting.xlsx'
+    df = pd.read_excel(data_path)
 
-# Load the shapefile (GeoJSON format) from a local file
-geojson_path = 'batas_provinsi.geojson'
-provinces_geo = gpd.read_file(geojson_path)
+    # Load the shapefile (GeoJSON format) from a local file
+    geojson_path = 'batas_provinsi.geojson'
+    provinces_geo = gpd.read_file(geojson_path)
 
-# Ensure column names match between the GeoDataFrame and your DataFrame
-provinces_geo = provinces_geo.merge(df, how='left', left_on='Provinsi', right_on='Province')
+    # Ensure column names match between the GeoDataFrame and your DataFrame
+    provinces_geo = provinces_geo.merge(df, how='left', left_on='Provinsi', right_on='Province')
 
-# Plot the map
-fig = px.choropleth(provinces_geo,
-                    geojson=provinces_geo.geometry,
-                    locations=provinces_geo.index,
-                    color='Persentase Kasus Stunting (%)',
-                    hover_name='Provinsi',
-                    hover_data=['Jumlah Balita', 'Stunting', 'Severity Stunting'],
-                    title='Peta Persebaran Stunting di Indonesia',
-                    color_continuous_scale='YlOrRd')
+    # Plot the map
+    fig = px.choropleth(provinces_geo,
+                        geojson=provinces_geo.geometry,
+                        locations=provinces_geo.index,
+                        color='Persentase Kasus Stunting (%)',
+                        hover_name='Provinsi',
+                        hover_data=['Jumlah Balita', 'Stunting', 'Severity Stunting'],
+                        title='Peta Persebaran Stunting di Indonesia',
+                        color_continuous_scale='YlOrRd')
 
-fig.update_geos(fitbounds="locations", visible=False)
-fig.update_layout(margin={"r": 0, "t": 30, "l": 0, "b": 0})
+    fig.update_geos(fitbounds="locations", visible=False)
+    fig.update_layout(margin={"r": 0, "t": 30, "l": 0, "b": 0})
 
-# Display the map
-st.plotly_chart(fig)
- st.write('Jelaskan dan visualisasikan faktor-faktor utama yang berkontribusi terhadap kejadian stunting pada balita, seperti faktor gizi, kesehatan, dan lainnya.')
-
- 
+    # Display the map
+    st.plotly_chart(fig)
+    st.write('Jelaskan dan visualisasikan faktor-faktor utama yang berkontribusi terhadap kejadian stunting pada balita, seperti faktor gizi, kesehatan, dan lainnya.')
 
 # Halaman 2: Faktor-faktor yang Memengaruhi Kejadian Stunting Balita
 if page == 'Faktor-faktor yang Memengaruhi Kejadian Stunting Balita':
@@ -82,7 +81,7 @@ if page == 'Prediksi Stunting pada Balita':
         jenis_kelamin = 0
     else:
         jenis_kelamin = 1
-    tinggi_badan = st.number_input('Tinggi Badan (cm)', min_value=00.0, max_value=150.0, value=80.0)
+    tinggi_badan = st.number_input('Tinggi Badan (cm)', min_value=0.0, max_value=150.0, value=80.0)
 
     # Load model dan scaler
     model = joblib.load('model_stunting_multinomial.pkl')
