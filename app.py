@@ -61,7 +61,7 @@ if page == 'Karakteristik Stunting Menurut Provinsi di Indonesia':
 
     # Display the map
     st.plotly_chart(fig)
-    st.write('Jelaskan dan visualisasikan faktor-faktor utama yang berkontribusi terhadap kejadian stunting pada balita, seperti faktor gizi, kesehatan, dan lainnya.')
+    st.write('Peta revalensi stunting di Indonesia menunjukkan bahwa persebaran stunting dengan perbedaan warna pada setiap daerah dengan rentang warna kuning hingga merah tua, semakin gelap warna dalam menunjukkan semakin tinggi umlah kejadian stunting')
 
 # Halaman 2: Faktor-faktor yang Memengaruhi Kejadian Stunting Balita
 if page == 'Faktor-faktor yang Memengaruhi Kejadian Stunting Balita':
