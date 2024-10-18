@@ -121,4 +121,33 @@ if page == 'Prediksi Stunting pada Balita':
             else:
                 st.success(f'Hasil Prediksi: {hasil_label}')
 
+    # Input tinggi badan, berat badan, jenis kelamin, dan usia
+    tinggi_badan = st.number_input("Masukkan tinggi badan anak (cm):", min_value=0.0)
+    berat_badan = st.number_input("Masukkan berat badan anak (kg):", min_value=0.0)
+    jenis_kelamin = st.selectbox("Pilih jenis kelamin anak:", ['Laki-laki', 'Perempuan'])
+    usia = st.selectbox("Pilih usia anak (tahun):", [1, 2, 3, 4, 5])
+
+    # Standar berat badan berdasarkan usia dan jenis kelamin
+    standar_berat = {
+        'Laki-laki': {1: (7.7, 12), 2: (9.7, 15.3), 3: (11.3, 18.3), 4: (12.7, 21.2), 5: (14.1, 24.9)},
+        'Perempuan': {1: (7, 11.5), 2: (9, 14.8), 3: (10.8, 18.1), 4: (12.3, 21.5), 5: (13.7, 24.9)}
+    }
+
+    # Mengecek apakah berat badan anak sesuai dengan standar
+    standar_min_berat, standar_max_berat = standar_berat[jenis_kelamin][usia]
+    if not (standar_min_berat <= berat_badan <= standar_max_berat):
+        st.error(f"Berat badan anak Anda tidak sesuai standar untuk usia {usia} tahun.")
+        st.warning("Rekomendasi Makanan untuk Kekurangan Berat Badan:")
+        st.markdown("""
+        1. Susu tinggi lemak atau susu formula khusus untuk anak dengan berat badan rendah.
+        2. Nasi, kentang, pasta, dan roti gandum yang menyediakan energi dan kalori.
+        3. Alpukat, kacang-kacangan, minyak zaitun, dan minyak kelapa sebagai sumber energi padat.
+        4. Daging, ikan, ayam, tempe, dan tahu. Protein penting untuk menambah massa tubuh dan otot.
+        5. Buah-buahan seperti pisang, mangga, dan kurma yang memberikan energi sekaligus serat dan vitamin.
+        6. Roti dengan selai kacang, smoothie dengan susu, dan granola yang mengandung campuran lemak, protein, dan karbohidrat.
+        """)
+    else:
+        st.success(f"Berat badan anak Anda sesuai dengan standar untuk usia {usia} tahun.")
+else:
+    st.success(f'Hasil Prediksi: {hasil_label}')
 
