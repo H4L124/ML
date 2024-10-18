@@ -159,40 +159,6 @@ if st.button('Prediksi Stunting'):
             )
             st.warning("Jika anak teridentifikasi stunting, segera bawa anak ke tenaga medis untuk saran dan pemantauan lebih lanjut.")
 
-            # Standar berat badan berdasarkan usia (dalam bulan) dan jenis kelamin
-            gender_mapping = { 'Perempuan': 'Perempuan', 'Laki-laki': 'Laki-laki'
-                             }
-            jenis_kelamin = gender_mapping[jenis_kelamin]
-            standar_berat = {
-                'Laki-laki': {
-                    12: (7.7, 12), 24: (9.7, 15.3), 36: (11.3, 18.3), 48: (12.7, 21.2), 60: (14.1, 24.9)
-                },
-                'Perempuan': {
-                    12: (7, 11.5), 24: (9, 14.8), 36: (10.8, 18.1), 48: (12.3, 21.5), 60: (13.7, 24.9)
-                }
-            }
-     
-
-            # Konversi usia dalam bulan ke interval standar terdekat (12 bulan, 24 bulan, dst.)
-            usia_interval_terdekat = min(standar_berat[jenis_kelamin].keys(), key=lambda x: abs(x - umur))
-
-            # Mengecek apakah berat badan anak sesuai dengan standar
-            standar_min_berat, standar_max_berat = standar_berat[jenis_kelamin][usia_interval_terdekat]
-            if not (standar_min_berat <= berat_badan <= standar_max_berat):
-                st.error(f"Berat badan anak Anda tidak sesuai standar untuk usia {usia_bulan} bulan.")
-                st.warning("Rekomendasi Makanan untuk Kekurangan Berat Badan:")
-                st.markdown("""
-                1. Susu tinggi lemak atau susu formula khusus untuk anak dengan berat badan rendah.
-                2. Nasi, kentang, pasta, dan roti gandum yang menyediakan energi dan kalori.
-                3. Alpukat, kacang-kacangan, minyak zaitun, dan minyak kelapa sebagai sumber energi padat.
-                4. Daging, ikan, ayam, tempe, dan tahu. Protein penting untuk menambah massa tubuh dan otot.
-                5. Buah-buahan seperti pisang, mangga, dan kurma yang memberikan energi sekaligus serat dan vitamin.
-                6. Roti dengan selai kacang, smoothie dengan susu, dan granola yang mengandung campuran lemak, protein, dan karbohidrat.
-                """)
-            else:
-                st.success(f"Berat badan anak Anda sesuai dengan standar untuk usia {umur} bulan.")
-        else:
-            st.success(f'Hasil Prediksi: {hasil_label}')
 
 
 
