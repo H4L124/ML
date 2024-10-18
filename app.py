@@ -148,6 +148,10 @@ if page == 'Prediksi Stunting':
                 st.warning("Jika anak teridentifikasi stunting, segera bawa anak ke tenaga medis untuk saran dan pemantauan lebih lanjut.")
             else:
                 st.success(f'Hasil Prediksi: {hasil_label}')
+import numpy as np
+import joblib
+import streamlit as st
+
 # Halaman 3: Prediksi Stunting pada Balita
 if page == 'Deteksi Stunting Standar WHO':
     st.header('Prediksi Stunting pada Balita')
@@ -159,7 +163,7 @@ if page == 'Deteksi Stunting Standar WHO':
     jenis_kelamin = st.selectbox('Jenis Kelamin', ('Perempuan', 'Laki-laki'))
     
     # Konversi menjadi 0 dan 1
-    jenis_kelamin = 0 if jenis_kelamin == 'Laki-laki' else 1
+    jenis_kelamin = 0 jika jenis_kelamin == 'Laki-laki' else 1
 
     tinggi_badan = st.number_input('Tinggi Badan (cm)', min_value=0.0, max_value=150.0, value=80.0)
 
@@ -206,81 +210,28 @@ if page == 'Deteksi Stunting Standar WHO':
             else:
                 st.success(f'Hasil Prediksi: {hasil_label}')
 
-    # Input tinggi badan, berat badan, jenis kelamin, dan usia
-    tinggi_badan = st.number_input("Masukkan tinggi badan anak (cm):", min_value=0.0)
-    berat_badan = st.number_input("Masukkan berat badan anak (kg):", min_value=0.0)
-    jenis_kelamin = st.selectbox("Pilih jenis kelamin anak:", ['Laki-laki', 'Perempuan'])
-    usia = st.selectbox("Pilih usia anak (tahun):", [1, 2, 3, 4, 5])
+            # Setelah prediksi, input data tambahan terkait berat dan tinggi
+            tinggi_badan = st.number_input("Masukkan tinggi badan anak (cm):", min_value=0.0)
+            berat_badan = st.number_input("Masukkan berat badan anak (kg):", min_value=0.0)
+            jenis_kelamin = st.selectbox("Pilih jenis kelamin anak:", ['Laki-laki', 'Perempuan'])
+            usia = st.selectbox("Pilih usia anak (tahun):", [1, 2, 3, 4, 5])
 
-    # Standar berat badan berdasarkan usia dan jenis kelamin
-    standar_berat = {
-        'Laki-laki': {1: (7.7, 12), 2: (9.7, 15.3), 3: (11.3, 18.3), 4: (12.7, 21.2), 5: (14.1, 24.9)},
-        'Perempuan': {1: (7, 11.5), 2: (9, 14.8), 3: (10.8, 18.1), 4: (12.3, 21.5), 5: (13.7, 24.9)}
-    }
+            # Standar tinggi badan berdasarkan usia dan jenis kelamin
+            standar_tinggi = {
+                'Laki-laki': {1: (71, 82.9), 2: (81.7, 96.3), 3: (88.7, 107.2), 4: (94.9, 115.9), 5: (100.7, 123.9)},
+                'Perempuan': {1: (68.9, 81.7), 2: (80, 96.1), 3: (87.4, 106.5), 4: (94.1, 115.7), 5: (99.9, 123.7)}
+            }
 
-    # Mengecek apakah berat badan anak sesuai dengan standar
-    standar_min_berat, standar_max_berat = standar_berat[jenis_kelamin][usia]
-    if not (standar_min_berat <= berat_badan <= standar_max_berat):
-        st.error(f"Berat badan anak Anda tidak sesuai standar untuk usia {usia} tahun.")
-        st.warning("Rekomendasi Makanan untuk Kekurangan Berat Badan:")
-        st.markdown("""
-        1. Susu tinggi lemak atau susu formula khusus untuk anak dengan berat badan rendah.
-        2. Nasi, kentang, pasta, dan roti gandum yang menyediakan energi dan kalori.
-        3. Alpukat, kacang-kacangan, minyak zaitun, dan minyak kelapa sebagai sumber energi padat.
-        4. Daging, ikan, ayam, tempe, dan tahu. Protein penting untuk menambah massa tubuh dan otot.
-        5. Buah-buahan seperti pisang, mangga, dan kurma yang memberikan energi sekaligus serat dan vitamin.
-        6. Roti dengan selai kacang, smoothie dengan susu, dan granola yang mengandung campuran lemak, protein, dan karbohidrat.
-        """)
-    else:
-        st.success(f"Berat badan anak Anda sesuai dengan standar untuk usia {usia} tahun.")
-else:
-    st.success(f'Hasil Prediksi: {hasil_label}')
-
-# Fungsi untuk melakukan prediksi stunting
-if hasil in [0, 1]:  # Jika Severity Stunting atau Stunting
-    st.markdown(
-        f"<div style='color: red; font-weight: bold;'>Hasil Prediksi: {hasil_label}</div>",
-        unsafe_allow_html=True
-    )
-    st.warning("Jika anak teridentifikasi stunting, segera bawa anak ke tenaga medis untuk saran dan pemantauan lebih lanjut.")
-
-    # Input tinggi badan, berat badan, jenis kelamin, dan usia
-    tinggi_badan = st.number_input("Masukkan tinggi badan anak (cm):", min_value=0.0)
-    berat_badan = st.number_input("Masukkan berat badan anak (kg):", min_value=0.0)
-    jenis_kelamin = st.selectbox("Pilih jenis kelamin anak:", ['Laki-laki', 'Perempuan'])
-    usia = st.selectbox("Pilih usia anak (tahun):", [1, 2, 3, 4, 5])
-
-# Tombol untuk prediksi
-if st.button('Prediksi Kategori Stunting'):
-    if tinggi_badan <= 0:
-        st.error("Tinggi badan harus lebih dari 0 cm.")
-    else:
-        hasil = predict_stunting(umur, jenis_kelamin, tinggi_badan)
-        hasil_label = map_hasil(hasil)
-
-        # Kode ini hanya akan dieksekusi setelah prediksi dilakukan
-        # Input tinggi badan, berat badan, jenis kelamin, dan usia
-        tinggi_badan = st.number_input("Masukkan tinggi badan anak (cm):", min_value=0.0)
-        berat_badan = st.number_input("Masukkan berat badan anak (kg):", min_value=0.0)
-        jenis_kelamin = st.selectbox("Pilih jenis kelamin anak:", ['Laki-laki', 'Perempuan'])
-        usia = st.selectbox("Pilih usia anak (tahun):", [1, 2, 3, 4, 5])
-
-        # Standar tinggi badan berdasarkan usia dan jenis kelamin
-        standar_tinggi = {
-            'Laki-laki': {1: (71, 82.9), 2: (81.7, 96.3), 3: (88.7, 107.2), 4: (94.9, 115.9), 5: (100.7, 123.9)},
-            'Perempuan': {1: (68.9, 81.7), 2: (80, 96.1), 3: (87.4, 106.5), 4: (94.1, 115.7), 5: (99.9, 123.7)}
-        }
-
-        # Mengecek apakah tinggi badan anak sesuai dengan standar
-        standar_min_tinggi, standar_max_tinggi = standar_tinggi[jenis_kelamin][usia]
-        if not (standar_min_tinggi <= tinggi_badan <= standar_max_tinggi):
-            st.error(f"Tinggi badan anak Anda tidak sesuai standar untuk usia {usia} tahun.")
-            st.warning("Rekomendasi Makanan untuk Kekurangan Tinggi Badan:")
-            st.markdown("""
-            1. Susu dan produk olahan susu seperti yogurt, keju, susu full cream
-            2. Daging ayam
-            3. Kacang-Kacangan dan Biji-Bijian
-            4. Sayuran Hijau Gelap seperti bayam dan brokoli
-            """)
-        else:
-            st.success(f"Tinggi badan anak Anda sesuai dengan standar untuk usia {usia} tahun.")
+            # Mengecek apakah tinggi badan anak sesuai dengan standar
+            standar_min_tinggi, standar_max_tinggi = standar_tinggi[jenis_kelamin][usia]
+            if not (standar_min_tinggi <= tinggi_badan <= standar_max_tinggi):
+                st.error(f"Tinggi badan anak Anda tidak sesuai standar untuk usia {usia} tahun.")
+                st.warning("Rekomendasi Makanan untuk Kekurangan Tinggi Badan:")
+                st.markdown("""
+                1. Susu dan produk olahan susu seperti yogurt, keju, susu full cream
+                2. Daging ayam
+                3. Kacang-Kacangan dan Biji-Bijian
+                4. Sayuran Hijau Gelap seperti bayam dan brokoli
+                """)
+            else:
+                st.success(f"Tinggi badan anak Anda sesuai dengan standar untuk usia {usia} tahun.")
