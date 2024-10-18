@@ -40,11 +40,11 @@ data_path = 'stunting.xlsx'
 df = pd.read_excel(data_path)
 
 # Load the shapefile (GeoJSON format) from a local file
-geojson_path = 'indonesia.geojson'
+geojson_path = 'batas_provinsi.geojson'
 provinces_geo = gpd.read_file(geojson_path)
 
 # Ensure column names match between the GeoDataFrame and your DataFrame
-provinces_geo = provinces_geo.merge(df, how='left', left_on='NAME_1', right_on='Province')
+provinces_geo = provinces_geo.merge(df, how='left', left_on='Provinsi', right_on='Province')
 
 # Plot the map
 fig = px.choropleth(provinces_geo,
