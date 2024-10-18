@@ -66,7 +66,7 @@ if page == 'Karakteristik Stunting Menurut Provinsi di Indonesia':
 # Halaman 3: Prediksi Stunting pada Balita
 if page == 'Prediksi Stunting pada Balita':
     st.header('Prediksi Stunting pada Balita')
-     st.write('Deteksi stunting dilakukan berdasarkan indikator HAZ (Height-for-Age Z-score) dari standar WHO. WHO telah menetapkan populasi referensi internasional yang digunakan sebagai standar universal untuk menilai pertumbuhan anak-anak di seluruh dunia, termasuk untuk penghitungan Z-score.
+    st.write('Deteksi stunting dilakukan berdasarkan indikator HAZ (Height-for-Age Z-score) dari standar WHO. WHO telah menetapkan populasi referensi internasional yang digunakan sebagai standar universal untuk menilai pertumbuhan anak-anak di seluruh dunia, termasuk untuk penghitungan Z-score.
 Standar WHO digunakan untuk mengevaluasi apakah pertumbuhan seorang anak sesuai dengan potensi pertumbuhan biologis optimal, terlepas dari lokasi geografis.')
 
     # Input form untuk memasukkan data
