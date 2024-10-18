@@ -107,7 +107,7 @@ if page == 'Prediksi Stunting':
     }
     kesehatan_anak = kesehatan_anak_mapping[kesehatan_anak]
     jenis_kelamin = 1 if jenis_kelamin == 'Laki-laki' else 3
-    dummy_feature = st.number_input('Dummy Feature (Test)', min_value=0, max_value=1, value=0)
+    dummy_feature = 0
     # Load model dan scaler dengan error handling
     try:
         model = joblib.load('model_faktorstunting_multinomial.pkl')
@@ -144,7 +144,7 @@ if st.button('Prediksi Stunting'):
         st.error("Tinggi badan harus lebih dari 0 cm.")
     else:
         # Pisahkan variabel numerik dan kategorik
-        numerical_data = [penambah_darah, bb_lahir, berat_badan, tinggi_badan, usia_bulan]  # Data numerik
+        numerical_data = [penambah_darah, bb_lahir, bb, tb, umur]  # Data numerik
         categorical_data = np.array([akses_ventilasi, kehidupan_rt, makan_anak, kesehatan_anak, jenis_kelamin])  # Data kategorik
         
         # Melakukan prediksi
