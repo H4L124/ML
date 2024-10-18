@@ -160,6 +160,9 @@ if st.button('Prediksi Stunting'):
             st.warning("Jika anak teridentifikasi stunting, segera bawa anak ke tenaga medis untuk saran dan pemantauan lebih lanjut.")
 
             # Standar berat badan berdasarkan usia (dalam bulan) dan jenis kelamin
+            gender_mapping = { 'Perempuan': 'Perempuan', 'Laki-laki': 'Laki-laki'
+                             }
+            jenis_kelamin = gender_mapping[jenis_kelamin]
             standar_berat = {
                 'Laki-laki': {
                     12: (7.7, 12), 24: (9.7, 15.3), 36: (11.3, 18.3), 48: (12.7, 21.2), 60: (14.1, 24.9)
@@ -168,6 +171,7 @@ if st.button('Prediksi Stunting'):
                     12: (7, 11.5), 24: (9, 14.8), 36: (10.8, 18.1), 48: (12.3, 21.5), 60: (13.7, 24.9)
                 }
             }
+     
 
             # Konversi usia dalam bulan ke interval standar terdekat (12 bulan, 24 bulan, dst.)
             usia_interval_terdekat = min(standar_berat[jenis_kelamin].keys(), key=lambda x: abs(x - umur))
