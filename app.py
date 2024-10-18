@@ -196,6 +196,51 @@ if st.button('Prediksi Stunting'):
                 5. Buah-buahan seperti pisang, mangga, dan kurma, memberikan energi sekaligus serat dan vitamin.
                 6. Roti dengan selai kacang, smoothie dengan susu, dan granola yang mengandung campuran lemak, protein, dan karbohidrat.
                 """)
+# Rekomendasi makanan berdasarkan tinggi badan dan usia
+            def rekomendasi_tinggi_badan(umur, tb, jenis_kelamin):
+                # Aturan tinggi badan
+                batas_tinggi = {
+                    (1, 12): (68.9, 81.7) if jenis_kelamin == 3 else (71, 82.9),  # Anak perempuan: 68.9 - 81.7 cm; Laki-laki: 71 - 82.9 cm
+                    (13, 24): (80, 96.1) if jenis_kelamin == 3 else (81.7, 96.3),  # Anak perempuan: 80 - 96.1 cm; Laki-laki: 81.7 - 96.3 cm
+                    (25, 36): (87.4, 106.5) if jenis_kelamin == 3 else (88.7, 107.2),  # Anak perempuan: 87.4 - 106.5 cm; Laki-laki: 88.7 - 107.2 cm
+                    (37, 48): (94.1, 115.7) if jenis_kelamin == 3 else (94.9, 115.9),  # Anak perempuan: 94.1 - 115.7 cm; Laki-laki: 94.9 - 115.9 cm
+                    (49, 60): (99.9, 123.7) if jenis_kelamin == 3 else (100.7, 123.9)  # Anak perempuan: 99.9 - 123.7 cm; Laki-laki: 100.7 - 123.9 cm
+                }
+
+                # Cek batas tinggi badan berdasarkan umur dan jenis kelamin
+                for age_range, (min_height, max_height) in batas_tinggi.items():
+                    if umur in range(age_range[0], age_range[1] + 1):
+                        if tb < min_height:
+                            return True  # Tinggi badan kurang dari minimum
+                        else:
+                            return False  # Tinggi badan sudah sesuai
+
+                return False  # Jika tidak ada rentang umur yang cocok
+
+            # Cek rekomendasi makanan hanya jika tinggi badan tidak memenuhi batas minimum
+            if rekomendasi_tinggi_badan(umur, tb, jenis_kelamin):
+                st.warning("Tinggi badan anak kurang dari nilai minimum. Berikut rekomendasi makanan untuk kekurangan tinggi badan:")
+                st.markdown("""
+                **Rekomendasi Makanan untuk Kekurangan Tinggi Badan**
+                1. Susu dan produk olahan susu seperti yogurt, keju, dan susu full cream.
+                2. Daging ayam yang kaya akan protein.
+                3. Kacang-kacangan dan biji-bijian untuk membantu pertumbuhan.
+                4. Sayuran hijau gelap seperti bayam dan brokoli yang kaya nutrisi.
+                """)
+
+        elif hasil == 2:  # Normal
+            st.markdown(
+                f"<div style='color: green; font-weight: bold;'>Hasil Prediksi: {hasil_label}</div>",
+                unsafe_allow_html=True
+            )
+            st.success("Anak dalam kategori normal, pertahankan pola makan sehat dan pemantauan rutin.")
+        
+        elif hasil == 3:  # Tinggi
+            st.markdown(
+                f"<div style='color: blue; font-weight: bold;'>Hasil Prediksi: {hasil_label}</div>",
+                unsafe_allow_html=True
+            )
+            st.success("Anak berada dalam kategori tinggi, terus jaga kesehatan dan pola makan yang baik.")
 
 if page == 'Deteksi Stunting Standar WHO':
     st.header('Prediksi Stunting pada Balita')
