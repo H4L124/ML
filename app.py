@@ -163,7 +163,6 @@ if st.button('Prediksi Stunting'):
 
 # Peringatan untuk stunting
         if hasil in [0, 1]:  # Jika Severity Stunting atau Stunting
-            st.warning("Jika anak teridentifikasi stunting, segera bawa anak ke tenaga medis untuk saran dan pemantauan lebih lanjut.")
             
             # Rekomendasi makanan berdasarkan berat badan dan usia
             def rekomendasi_berat_badan(umur, bb, jenis_kelamin):
