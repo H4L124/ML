@@ -158,6 +158,8 @@ if st.button('Prediksi Stunting'):
                 unsafe_allow_html=True
             )
             st.warning("Jika anak teridentifikasi stunting, segera bawa anak ke tenaga medis untuk saran dan pemantauan lebih lanjut.")
+        else:
+             st.success(f'Hasil Prediksi: {hasil_label}')
 
 if page == 'Deteksi Stunting Standar WHO':
     st.header('Prediksi Stunting pada Balita')
