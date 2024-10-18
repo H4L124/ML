@@ -116,10 +116,14 @@ if page == 'Prediksi Stunting':
         st.stop()
 
     # Fungsi untuk prediksi kategori stunting
-    def predict_stunting(penambah_darah, bb_lahir, bb, tb, umur, akses_ventilasi, kehidupan_rt, makan_anak, kesehatan_anak, jenis_kelamin):
-        input_data = np.array([[penambah_darah, bb_lahir, bb, tb, umur, akses_ventilasi, kehidupan_rt, makan_anak, kesehatan_anak, jenis_kelamin]])
-        input_data_scaled = scaler.transform(input_data)  # Transformasi data
-        prediction = model.predict(input_data_scaled)  # Prediksi
+    def predict_stunting(numerical_data, categorical_data):
+        numerical_data_scaled = scaler.transform([numerical_data])  # Transformasi hanya data numerik
+
+    # Gabungkan data numerik yang telah diskalakan dengan data kategorik
+        input_data_combined = np.concatenate([numerical_data_scaled[0], categorical_data])
+
+    # Prediksi menggunakan model
+        prediction = model.predict([input_data_combined])  # Prediksi
         return prediction[0]
 
     # Fungsi untuk mengubah angka kategori menjadi label
@@ -137,7 +141,11 @@ if page == 'Prediksi Stunting':
         if tb <= 0:
             st.error("Tinggi badan harus lebih dari 0 cm.")
         else:
-            hasil = predict_stunting(penambah_darah, bb_lahir, bb, tb, umur, akses_ventilasi, kehidupan_rt, makan_anak, kesehatan_anak, jenis_kelamin)
+        # Pisahkan variabel numerik dan kategorik
+            numerical_data = [penambah_darah, bb_lahir, bb, tb, umur]  # Data numerik
+            categorical_data = np.array([akses_ventilasi, kehidupan_rt, makan_anak, kesehatan_anak, jenis_kelamin])  # Data kategorik
+        
+            hasil = predict_stunting(numerical_data, categorical_data)
             hasil_label = map_hasil(hasil)
 
             # Tampilkan hasil prediksi dengan warna dinamis
