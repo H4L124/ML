@@ -140,11 +140,11 @@ def map_hasil(category):
 
 # Tombol untuk prediksi
 if st.button('Prediksi Stunting'):
-    if tinggi_badan <= 0:
+    if tb <= 0:
         st.error("Tinggi badan harus lebih dari 0 cm.")
     else:
         # Pisahkan variabel numerik dan kategorik
-        numerical_data = [penambah_darah, bb_lahir, berat_badan, tinggi_badan, usia_bulan]  # Data numerik
+        numerical_data = [penambah_darah, bb_lahir, bb, tb, umur]  # Data numerik
         categorical_data = np.array([akses_ventilasi, kehidupan_rt, makan_anak, kesehatan_anak, jenis_kelamin])  # Data kategorik
         
         # Melakukan prediksi
