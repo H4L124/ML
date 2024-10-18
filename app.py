@@ -148,9 +148,6 @@ if page == 'Prediksi Stunting':
                 st.warning("Jika anak teridentifikasi stunting, segera bawa anak ke tenaga medis untuk saran dan pemantauan lebih lanjut.")
             else:
                 st.success(f'Hasil Prediksi: {hasil_label}')
-import numpy as np
-import joblib
-import streamlit as st
 
 # Halaman 3: Prediksi Stunting pada Balita
 if page == 'Deteksi Stunting Standar WHO':
