@@ -20,8 +20,8 @@ st.title('Dashboard Deteksi Stunting pada Balita')
 # Sidebar untuk navigasi halaman
 page = st.sidebar.selectbox('Navigasi Halaman', 
                             ['Karakteristik Stunting Menurut Provinsi di Indonesia', 
-                             'Faktor-faktor yang Memengaruhi Kejadian Stunting Balita', 
-                             'Prediksi Stunting pada Balita'])
+                             'Prediksi Stunting', 
+                             'Deteksi Stunting Standar WHO'])
 
 st.sidebar.subheader("Dashboard Deteksi Stunting Balita")
 st.sidebar.subheader("Disusun Oleh:")
@@ -63,7 +63,7 @@ if page == 'Karakteristik Stunting Menurut Provinsi di Indonesia':
     st.plotly_chart(fig)
     st.write('Peta prevelensi stunting di Indonesia menunjukkan bahwa persebaran stunting dengan perbedaan warna pada setiap daerah dengan rentang warna kuning hingga merah tua, semakin gelap warna menunjukkan semakin tinggi jumlah kejadian stunting. Pada peta menunjukkan Provinsi Sulawesi Selatan dan NTT memiliki prevelensi stunting yang tinggi, Papua dan Papua Barat memiliki prevelensi sedang hingga tinggi')
 # Halaman baru: Prediksi Stunting Menurut Indikator
-if page == 'Prediksi Stunting Menurut Indikator':
+if page == 'Prediksi Stunting':
     st.header('Prediksi Stunting Menurut Indikator')
 
     # Input form untuk memasukkan data
@@ -149,7 +149,7 @@ if page == 'Prediksi Stunting Menurut Indikator':
             else:
                 st.success(f'Hasil Prediksi: {hasil_label}')
 # Halaman 3: Prediksi Stunting pada Balita
-if page == 'Prediksi Stunting pada Balita':
+if page == 'Deteksi Stunting Standar WHO':
     st.header('Prediksi Stunting pada Balita')
     st.write('Deteksi stunting dilakukan berdasarkan indikator HAZ/Height-for-Age Z-score dari standar WHO. WHO telah menetapkan populasi referensi internasional yang digunakan sebagai standar universal untuk menilai pertumbuhan anak-anak di seluruh dunia, termasuk untuk penghitungan Z-score. Standar WHO digunakan untuk mengevaluasi apakah pertumbuhan seorang anak sesuai dengan potensi pertumbuhan biologis optimal, terlepas dari lokasi geografis.')
 
