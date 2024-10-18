@@ -63,22 +63,22 @@ if page == 'Karakteristik Stunting Menurut Provinsi di Indonesia':
     st.plotly_chart(fig)
     st.write('Peta prevelensi stunting di Indonesia menunjukkan bahwa persebaran stunting dengan perbedaan warna pada setiap daerah dengan rentang warna kuning hingga merah tua, semakin gelap warna menunjukkan semakin tinggi jumlah kejadian stunting. Pada peta menunjukkan Provinsi Sulawesi Selatan dan NTT memiliki prevelensi stunting yang tinggi, Papua dan Papua Barat memiliki prevelensi sedang hingga tinggi')
 # Halaman baru: Prediksi Stunting Menurut Indikator
+# Halaman baru: Prediksi Stunting Menurut Indikator
 if page == 'Prediksi Stunting':
     st.header('Prediksi Stunting Menurut Indikator')
 
     # Input form untuk memasukkan data
     st.subheader('Input Data')
-
-    # Input form for indicator variables
+     # Input form for indicator variables
     penambah_darah = st.number_input('Jumlah Pil Penambah Darah yang Dikonsumsi Selama Mengandung', min_value=0, max_value=1000, value=0)
     bb_lahir = st.number_input('Berat Badan Lahir (kg)', min_value=0.0, max_value=10.0, value=0.0)
-    bb = st.number_input('Berat Badan (kg)', min_value=0.0, max_value=100.0, value=0.0)  # Koreksi label
-    tb = st.number_input('Tinggi Badan (cm)', min_value=0.0, max_value=200.0, value=0.0)  # Koreksi label
+    bb = st.number_input('Berat Badan Lahir (kg)', min_value=0.0, max_value=100.0, value=0.0)
+    tb = st.number_input('Berat Badan Lahir (kg)', min_value=0.0, max_value=200.0, value=0.0)
     umur = st.number_input('Umur (bulan)', min_value=0, max_value=60, value=24)
     akses_ventilasi = st.selectbox('Akses Ventilasi Rumah', ('Memadahi', 'Tidak Memadahi'))
     kehidupan_rt = st.selectbox('Bagaimana Kondisi Perekonomian Orang Tua?', ('Kurang Mencukupi', 'Mencukupi Kebutuhan Primer', 'Lebih Dari Cukup', 'Kurang Tahu'))
     makan_anak = st.selectbox('Bagaimana Kecukupan untuk Konsumsi Anak?', ('Kurang Mencukupi', 'Cukup', 'Lebih Dari Cukup', 'Kurang Tahu'))
-    kesehatan_anak = st.selectbox('Bagaimana Akses untuk Perawatan Kesehatan Anak?', ('Kurang Mencukupi', 'Cukup', 'Lebih Dari Cukup', 'Kurang Tahu'))
+    kesehatan_anak = st.selectbox('Bagaimana Akses untuk Perawatan Kesehatan Anak?', ('Kurang Mencukupi', 'Cukup ', 'Lebih Dari Cukup', 'Kurang Tahu'))
     jenis_kelamin = st.selectbox('Jenis Kelamin', ('Perempuan', 'Laki-laki'))
 
     # Konversi menjadi 0 dan 1
@@ -106,9 +106,7 @@ if page == 'Prediksi Stunting':
         'Kurang Tahu': 8
     }
     kesehatan_anak = kesehatan_anak_mapping[kesehatan_anak]
-
     jenis_kelamin = 1 if jenis_kelamin == 'Laki-laki' else 3
-
     # Load model dan scaler dengan error handling
     try:
         model = joblib.load('model_faktorstunting_multinomial.pkl')
@@ -136,10 +134,10 @@ if page == 'Prediksi Stunting':
 
     # Tombol untuk prediksi
     if st.button('Prediksi Stunting'):
-        if tb <= 0:  # Gunakan variabel tb untuk tinggi badan
+        if tinggi_badan <= 0:
             st.error("Tinggi badan harus lebih dari 0 cm.")
         else:
-            hasil = predict_stunting(umur, jenis_kelamin, tb)  # Gunakan tb di sini
+            hasil = predict_stunting(umur, jenis_kelamin, tinggi_badan)
             hasil_label = map_hasil(hasil)
 
             # Tampilkan hasil prediksi dengan warna dinamis
