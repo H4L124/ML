@@ -158,14 +158,7 @@ if st.button('Prediksi Stunting'):
                 unsafe_allow_html=True
             )
             st.warning("Jika anak teridentifikasi stunting, segera bawa anak ke tenaga medis untuk saran dan pemantauan lebih lanjut.")
-# Tambahkan setelah prediksi
-if hasil in [0, 1]:  # Jika Severity Stunting atau Stunting
-    st.markdown(
-        f"<div style='color: red; font-weight: bold;'>Hasil Prediksi: {hasil_label}</div>",
-        unsafe_allow_html=True
-    )
-    st.warning("Jika anak teridentifikasi stunting, segera bawa anak ke tenaga medis untuk saran dan pemantauan lebih lanjut.")
-
+            
     # Rekomendasi makanan berdasarkan berat badan dan usia
     def rekomendasi_berat_badan(umur, bb, jenis_kelamin):
         # Aturan berat badan
