@@ -1,8 +1,10 @@
 streamlit
 joblib
-scikit-learn
-pandas
 numpy
+pandas
+geopandas
+plotly
 shap
 matplotlib
-geopandas
+scikit-learn
+openpyxl
