@@ -34,8 +34,7 @@ st.sidebar.write("Bibit Eka Wahyuni (2043211053)")
 # Halaman 1: Karakteristik Stunting Menurut Provinsi di Indonesia
 if page == 'Karakteristik Stunting Menurut Provinsi di Indonesia':
     st.header('Karakteristik Stunting Menurut Provinsi di Indonesia')
-
-  # Load data from Excel file
+     # Load data from Excel file
 data_path = 'stunting.xlsx'
 df = pd.read_excel(data_path)
 
@@ -61,6 +60,9 @@ fig.update_layout(margin={"r": 0, "t": 30, "l": 0, "b": 0})
 
 # Display the map
 st.plotly_chart(fig)
+ st.write('Jelaskan dan visualisasikan faktor-faktor utama yang berkontribusi terhadap kejadian stunting pada balita, seperti faktor gizi, kesehatan, dan lainnya.')
+
+ 
 
 # Halaman 2: Faktor-faktor yang Memengaruhi Kejadian Stunting Balita
 if page == 'Faktor-faktor yang Memengaruhi Kejadian Stunting Balita':
