@@ -76,11 +76,13 @@ if page == 'Prediksi Stunting pada Balita':
     st.subheader('Input Data')
     umur = st.number_input('Umur (bulan)', min_value=0, max_value=60, value=24)
     jenis_kelamin = st.selectbox('Jenis Kelamin', ('Perempuan', 'Laki-laki'))
+    
     # Konversi menjadi 0 dan 1
     if jenis_kelamin == 'Laki-laki':
         jenis_kelamin = 0
     else:
         jenis_kelamin = 1
+
     tinggi_badan = st.number_input('Tinggi Badan (cm)', min_value=0.0, max_value=150.0, value=80.0)
 
     # Load model dan scaler
@@ -109,7 +111,16 @@ if page == 'Prediksi Stunting pada Balita':
     if st.button('Prediksi Kategori Stunting'):
         hasil = predict_stunting(umur, jenis_kelamin, tinggi_badan)
         hasil_label = map_hasil(hasil)
-        st.success(f'Hasil Prediksi: {hasil_label}')
+
+        # Tampilkan hasil prediksi
+        if hasil in [0, 1]:  # Jika Severity Stunting atau Stunting
+            st.markdown(
+                f"<div style='color: red; font-weight: bold;'>Hasil Prediksi: {hasil_label}</div>",
+                unsafe_allow_html=True
+            )
+            st.warning("Jika anak teridentifikasi stunting, segera bawa anak ke tenaga medis untuk saran dan pemantauan lebih lanjut.")
+        else:  # Untuk kategori Normal atau Tinggi
+            st.success(f'Hasil Prediksi: {hasil_label}')
 
     # SHAP Interpretasi
     st.subheader('Interpretasi SHAP')
