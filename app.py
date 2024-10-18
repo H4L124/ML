@@ -170,7 +170,7 @@ if st.button('Prediksi Stunting'):
             }
 
             # Konversi usia dalam bulan ke interval standar terdekat (12 bulan, 24 bulan, dst.)
-            usia_interval_terdekat = min(standar_berat[jenis_kelamin].keys(), key=lambda x: abs(x - usia_bulan))
+            usia_interval_terdekat = min(standar_berat[jenis_kelamin].keys(), key=lambda x: abs(x - umur))
 
             # Mengecek apakah berat badan anak sesuai dengan standar
             standar_min_berat, standar_max_berat = standar_berat[jenis_kelamin][usia_interval_terdekat]
@@ -186,7 +186,7 @@ if st.button('Prediksi Stunting'):
                 6. Roti dengan selai kacang, smoothie dengan susu, dan granola yang mengandung campuran lemak, protein, dan karbohidrat.
                 """)
             else:
-                st.success(f"Berat badan anak Anda sesuai dengan standar untuk usia {usia_bulan} bulan.")
+                st.success(f"Berat badan anak Anda sesuai dengan standar untuk usia {umur} bulan.")
         else:
             st.success(f'Hasil Prediksi: {hasil_label}')
 
