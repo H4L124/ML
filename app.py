@@ -128,23 +128,23 @@ if page == 'Prediksi Stunting':
         prediction = model.predict([input_data_combined])  # Prediksi
         return prediction[0]
 
-    # Fungsi untuk mengubah angka kategori menjadi label
-    def map_hasil(category):
-        mapping = {
-            0: "Severity Stunting",
-            1: "Stunting",
-            2: "Normal",
-            3: "Tinggi"
-        }
-        return mapping.get(category, "Unknown")
+# Fungsi untuk mengubah angka kategori menjadi label
+def map_hasil(category):
+    mapping = {
+        0: "Severity Stunting",
+        1: "Stunting",
+        2: "Normal",
+        3: "Tinggi"
+    }
+    return mapping.get(category, "Unknown")
 
-    # Tombol untuk prediksi
+# Tombol untuk prediksi
 if st.button('Prediksi Stunting'):
-    if tb <= 0:
+    if tinggi_badan <= 0:
         st.error("Tinggi badan harus lebih dari 0 cm.")
     else:
         # Pisahkan variabel numerik dan kategorik
-        numerical_data = [penambah_darah, bb_lahir, bb, tb, umur]  # Data numerik
+        numerical_data = [penambah_darah, bb_lahir, berat_badan, tinggi_badan, usia_bulan]  # Data numerik
         categorical_data = np.array([akses_ventilasi, kehidupan_rt, makan_anak, kesehatan_anak, jenis_kelamin])  # Data kategorik
         
         # Melakukan prediksi
@@ -189,6 +189,7 @@ if st.button('Prediksi Stunting'):
                 st.success(f"Berat badan anak Anda sesuai dengan standar untuk usia {usia_bulan} bulan.")
         else:
             st.success(f'Hasil Prediksi: {hasil_label}')
+
 
 
 
